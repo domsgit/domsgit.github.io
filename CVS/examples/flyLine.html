@@ -3,19 +3,19 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>Project | domsgit的个人主页</title>
+  <title>domsgit的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端、后端、docker、k8s">
+  <meta name="description" content="飞刀            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bord">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Project">
-<meta property="og:url" content="https://domsgit.github.io/project/index.html">
+<meta property="og:title" content="domsgit的个人主页">
+<meta property="og:url" content="https://domsgit.github.io/CVS/examples/flyLine.html">
 <meta property="og:site_name" content="domsgit的个人主页">
-<meta property="og:description" content="前端、后端、docker、k8s">
+<meta property="og:description" content="飞刀            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bord">
 <meta property="og:locale" content="utf-8">
-<meta property="og:updated_time" content="2019-08-17T15:29:51.000Z">
+<meta property="og:updated_time" content="2019-09-03T14:45:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Project">
-<meta name="twitter:description" content="前端、后端、docker、k8s">
+<meta name="twitter:title" content="domsgit的个人主页">
+<meta name="twitter:description" content="飞刀            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bord">
   
     <link rel="alternate" href="/atom.xml" title="domsgit的个人主页" type="application/atom+xml">
   
@@ -72,35 +72,125 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="project-" class="article article-type-project" itemscope itemprop="blogPost">
+        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/project/index.html" class="article-date">
-  <time datetime="2019-08-17T15:29:51.000Z" itemprop="datePublished">2019-08-17</time>
+    <a href="/CVS/examples/flyLine.html" class="article-date">
+  <time datetime="2019-09-03T14:45:37.000Z" itemprop="datePublished">2019-09-03</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Project
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
         <!-- Table of Contents -->
         
-        
+        <!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <title>飞刀</title>
+    <style media="screen">
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #canvas {
+        display: block;
+        box-sizing: border-box;
+        background-color: #000;
+      }
+    </style>
+  </head>
+<body>
+<canvas id="canvas">
+ 你的浏览器不支持 canvas，请升级你的浏览器。
+</canvas>
+<script src="../src/index.js"></script>
+<script>
+  new CVS({
+    onContextConfig: function() {
+      this.ctx.lineWidth = 6
+      this.ctx.lineCap = 'round'
+
+      var options = this.options
+      var width = options.width
+      var height = options.height
+
+      var sx = (width / 2) * Math.random()
+      var sy = (height / 2) * Math.random()
+      var ex = (width / 2) * Math.random()
+      var ey = (height / 2) * Math.random()
+
+      var mx = sx + ((ex - sx) >> 1)
+      var my = sy + ((ey - sy) >> 1)
+
+      var dx = 6 * Math.random() * Math.pow(-1, Math.random() > 0.5 ? 2 : 1)
+      var dy = 6 * Math.random() * Math.pow(-1, Math.random() > 0.5 ? 2 : 1)
+
+      var gx = ex - sx
+      var gy = ey - sy
+      var degree = Math.atan(gy / gx)
+      var length = Math.sqrt(Math.pow(gx, 2) + Math.pow(gy, 2)) >> 1
+
+      return {
+        sx,
+        sy,
+        ex,
+        ey,
+        mx,
+        my,
+        dx,
+        dy,
+        gx,
+        gy,
+        degree,
+        length
+      }
+    },
+    onRender: function() {
+      var ctx = this.ctx
+      var options = this.options
+      var width = options.width
+      var height = options.height
+
+      var initDatas = this.initDatas
+
+      initDatas.mx += initDatas.dx
+      initDatas.my += initDatas.dy
+      initDatas.degree += 0.5 // 1
+      initDatas.degree = initDatas.degree > Math.PI * 2 ? Math.PI * 2 - initDatas.degree : initDatas.degree
+      var nsx = initDatas.mx + initDatas.length * Math.cos(initDatas.degree)
+      var nsy = initDatas.my + initDatas.length * Math.sin(initDatas.degree)
+      var nex = initDatas.mx - initDatas.length * Math.cos(initDatas.degree)
+      var ney = initDatas.my - initDatas.length * Math.sin(initDatas.degree)
+
+      if(nsx > width || nsx < 0 || nex > width || nex < 0) {
+        initDatas.dx *= -1
+      }
+      if(nsy > width || nsy < 0 || ney > width || ney < 0) {
+        initDatas.dy *= -1
+      }
+
+      ctx.strokeStyle = this.randomHexColor()
+      ctx.beginPath()
+      ctx.moveTo(nsx, nsy)
+      ctx.lineTo(nex, ney)
+      ctx.stroke()
+    },
+    isAnimation: true
+  })
+</script>
+</body>
+</html>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://domsgit.github.io/project/index.html" data-id="ck040sh6g0004aozwp5ld9zwx" class="article-share-link">分享</a>
+      <a data-url="https://domsgit.github.io/CVS/examples/flyLine.html" data-id="ck040sh8r000caozwvyx21x5s" class="article-share-link">分享</a>
       
       
       

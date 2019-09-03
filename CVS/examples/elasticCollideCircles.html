@@ -3,19 +3,19 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>Project | domsgit的个人主页</title>
+  <title>domsgit的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端、后端、docker、k8s">
+  <meta name="description" content="小球的弹性碰撞            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing:">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Project">
-<meta property="og:url" content="https://domsgit.github.io/project/index.html">
+<meta property="og:title" content="domsgit的个人主页">
+<meta property="og:url" content="https://domsgit.github.io/CVS/examples/elasticCollideCircles.html">
 <meta property="og:site_name" content="domsgit的个人主页">
-<meta property="og:description" content="前端、后端、docker、k8s">
+<meta property="og:description" content="小球的弹性碰撞            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing:">
 <meta property="og:locale" content="utf-8">
-<meta property="og:updated_time" content="2019-08-17T15:29:51.000Z">
+<meta property="og:updated_time" content="2019-09-03T14:45:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Project">
-<meta name="twitter:description" content="前端、后端、docker、k8s">
+<meta name="twitter:title" content="domsgit的个人主页">
+<meta name="twitter:description" content="小球的弹性碰撞            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing:">
   
     <link rel="alternate" href="/atom.xml" title="domsgit的个人主页" type="application/atom+xml">
   
@@ -72,35 +72,129 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="project-" class="article article-type-project" itemscope itemprop="blogPost">
+        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/project/index.html" class="article-date">
-  <time datetime="2019-08-17T15:29:51.000Z" itemprop="datePublished">2019-08-17</time>
+    <a href="/CVS/examples/elasticCollideCircles.html" class="article-date">
+  <time datetime="2019-09-03T14:45:37.000Z" itemprop="datePublished">2019-09-03</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Project
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
         <!-- Table of Contents -->
         
-        
+        <!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <title>小球的弹性碰撞</title>
+    <style media="screen">
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #canvas {
+        display: block;
+        box-sizing: border-box;
+        background-color: #000;
+      }
+    </style>
+  </head>
+<body>
+<canvas id="canvas">
+ 你的浏览器不支持 canvas，请升级你的浏览器。
+</canvas>
+<script src="../src/index.js"></script>
+<script>
+  main()
+
+  function main() {
+    var cvs = new CVS()
+    var ctx = cvs.ctx
+    var options = cvs.options
+    var width = options.width
+    var height = options.height
+
+    var circles = []
+    var min = Math.min(width, height)
+
+    var circlesNum = 0
+    var rest = [min / 2]
+    while(rest[0] > 40) {
+      rest.unshift(rest[0] / 2)
+      circlesNum++
+    }
+    rest.pop()
+
+    render()
+
+    function render() {
+      requestAnimationFrame(render)
+      ctx.clearRect(0, 0, width, height)
+
+      ctx.globalAlpha = 0.8
+      for(var i = 0; i < circlesNum; i++) {
+        var prev = circles[i - 1] || {}
+        var circle = circles[i] || {
+          x: (prev.x || 0) + rest[i],
+          y: (prev.y || 0) + rest[i],
+          r: rest[i] / 2,
+          dx: 6 * Math.random() * Math.pow(-1, Math.random() > 0.5 ? 2 : 1),
+          dy: 6 * Math.random() * Math.pow(-1, Math.random() > 0.5 ? 2 : 1),
+          color: cvs.randomHexColor(),
+        }
+
+        for(var j = 0, len = circles.length; j < len; j++) {
+          if(i !== j && circles[i] && circles[j] && cvs.isCirclesInIntersect(circles[i], circles[j])) {
+            // 假设小球的质量m即为r
+            // 动量守恒定律 + 能量守恒定律 => 小球碰撞后的速度：
+            // var denominator = circles[i].r + circles[j].r
+            // circles[i].dx = ((circles[i].r - circles[j].r) * circles[i].dx + 2 * circles[j].r * circles[j].dx) / denominator
+            // circles[j].dx = ((circles[j].r - circles[i].r) * circles[j].dx + 2 * circles[i].r * circles[i].dx) / denominator
+            // circles[i].dy = ((circles[i].r - circles[j].r) * circles[i].dy + 2 * circles[j].r * circles[j].dy) / denominator
+            // circles[j].dy = ((circles[j].r - circles[i].r) * circles[j].dy + 2 * circles[i].r * circles[i].dy) / denominator
+
+            circles[i].dx *= -1
+            circles[i].dy *= -1
+          }
+        }
+        if(circle.x > width - circle.r || circle.x < circle.r) {
+          circle.dx *= -1
+        }
+        if(circle.y > height - circle.r || circle.y < circle.r) {
+          circle.dy *= -1
+        }
+
+        circle.x += circle.dx
+        circle.y += circle.dy
+
+        ctx.fillStyle = circle.color
+        ctx.beginPath()
+        ctx.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
+        ctx.fill()
+        ctx.closePath()
+
+        if(circles.length < circlesNum) {
+          circles.push(circle)
+        } else {
+          circles[i] = circle
+        }
+      }
+    }
+  }
+</script>
+</body>
+</html>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://domsgit.github.io/project/index.html" data-id="ck040sh6g0004aozwp5ld9zwx" class="article-share-link">分享</a>
+      <a data-url="https://domsgit.github.io/CVS/examples/elasticCollideCircles.html" data-id="ck040sh8l000aaozw9qlwnnhx" class="article-share-link">分享</a>
       
       
       

@@ -3,19 +3,19 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>Project | domsgit的个人主页</title>
+  <title>domsgit的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端、后端、docker、k8s">
+  <meta name="description" content="流星雨            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bor">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Project">
-<meta property="og:url" content="https://domsgit.github.io/project/index.html">
+<meta property="og:title" content="domsgit的个人主页">
+<meta property="og:url" content="https://domsgit.github.io/CVS/examples/meteorRains.html">
 <meta property="og:site_name" content="domsgit的个人主页">
-<meta property="og:description" content="前端、后端、docker、k8s">
+<meta property="og:description" content="流星雨            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bor">
 <meta property="og:locale" content="utf-8">
-<meta property="og:updated_time" content="2019-08-17T15:29:51.000Z">
+<meta property="og:updated_time" content="2019-09-03T14:45:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Project">
-<meta name="twitter:description" content="前端、后端、docker、k8s">
+<meta name="twitter:title" content="domsgit的个人主页">
+<meta name="twitter:description" content="流星雨            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bor">
   
     <link rel="alternate" href="/atom.xml" title="domsgit的个人主页" type="application/atom+xml">
   
@@ -72,35 +72,132 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="project-" class="article article-type-project" itemscope itemprop="blogPost">
+        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/project/index.html" class="article-date">
-  <time datetime="2019-08-17T15:29:51.000Z" itemprop="datePublished">2019-08-17</time>
+    <a href="/CVS/examples/meteorRains.html" class="article-date">
+  <time datetime="2019-09-03T14:45:37.000Z" itemprop="datePublished">2019-09-03</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Project
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
         <!-- Table of Contents -->
         
-        
+        <!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <title>流星雨</title>
+    <style media="screen">
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #canvas {
+        display: block;
+        box-sizing: border-box;
+        background-color: #000;
+      }
+    </style>
+  </head>
+<body>
+<canvas id="canvas">
+ 你的浏览器不支持 canvas，请升级你的浏览器。
+</canvas>
+<script src="../src/index.js"></script>
+<script>
+  main()
+
+  function main() {
+    var cvs = new CVS()
+    var ctx = cvs.ctx
+    var options = cvs.options
+    var width = options.width
+    var height = options.height
+
+    var angle = Math.random() * Math.PI // * 2
+    var NUM = 500
+    var dx = 8 * Math.cos(angle)
+    var dy = 8 * Math.sin(angle)
+    var meteorsQueue = []
+    var k = 2 * Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2))
+    var vScreenStartX = (-dx / Math.abs(dx)) * k * Math.abs(Math.cos(angle))
+    var vScreenStartY = (-dy / Math.abs(dy)) * k * Math.abs(Math.sin(angle))
+
+    render()
+
+    // 新增线
+    function createLine() {
+      var lwidth = Math.floor(Math.random() * 6)
+      var lcolor = cvs.randomHexColor()
+      var sx = vScreenStartX + width * Math.random()
+      var sy = vScreenStartY + height * Math.random()
+      var length = Math.random() * 50 + 10
+      var ex = sx + length * Math.cos(angle)
+      var ey = sy + length * Math.sin(angle)
+      ctx.beginPath()
+      ctx.lineWidth = lwidth
+      ctx.strokeStyle = lcolor
+      ctx.moveTo(sx, sy)
+      ctx.lineTo(ex, ey)
+      ctx.stroke()
+      meteorsQueue.push([sx, sy, ex, ey, lwidth, lcolor])
+    }
+
+    // 重渲染
+    function render() {
+      requestAnimationFrame(render)
+      removeAndAddLine()
+      ctx.clearRect(0, 0, width, height)
+      for(var i = 0; i < meteorsQueue.length; i++) {
+        meteorsQueue[i][0] = meteorsQueue[i][0] + dx
+        meteorsQueue[i][1] = meteorsQueue[i][1] + dy
+        meteorsQueue[i][2] = meteorsQueue[i][2] + dx
+        meteorsQueue[i][3] = meteorsQueue[i][3] + dy
+        ctx.beginPath()
+        ctx.lineWidth = meteorsQueue[i][4]
+        ctx.strokeStyle = meteorsQueue[i][5]
+        ctx.moveTo(meteorsQueue[i][0], meteorsQueue[i][1])
+        ctx.lineTo(meteorsQueue[i][2], meteorsQueue[i][3])
+        ctx.stroke()
+      }
+    }
+
+    // 删除不在屏幕的线，并且新增线，以保持线的数量一直有且一致
+    function removeAndAddLine() {
+      meteorsQueue = meteorsQueue.filter(v => isLineInScreen(v))
+      new Array(NUM - meteorsQueue.length).fill(1).map(v => createLine())
+    }
+
+    // 判断 某线 是否还在屏幕中 或是在虚拟屏幕到显示屏幕的路径中
+    function isLineInScreen(line) {
+      if(isPointInScreen([line[0], line[1]]) || isPointInScreen([line[2], line[3]])) return true
+      return false
+    }
+
+    // 判断 某点 是否还在屏幕中 或是在虚拟屏幕到显示屏幕的路径中
+    function isPointInScreen(point) {
+      var minX = Math.min(0, vScreenStartX, width, vScreenStartX + width)
+      var maxX = Math.max(0, vScreenStartX, width, vScreenStartX + width)
+      var minY = Math.min(0, vScreenStartY, height, vScreenStartY + height)
+      var maxY = Math.max(0, vScreenStartY, height, vScreenStartY + height)
+      if(point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY) return true
+      return false
+    }
+  }
+</script>
+</body>
+</html>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://domsgit.github.io/project/index.html" data-id="ck040sh6g0004aozwp5ld9zwx" class="article-share-link">分享</a>
+      <a data-url="https://domsgit.github.io/CVS/examples/meteorRains.html" data-id="ck040sh92000haozwgy18axjb" class="article-share-link">分享</a>
       
       
       

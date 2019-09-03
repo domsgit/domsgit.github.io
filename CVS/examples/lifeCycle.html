@@ -3,19 +3,19 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>Project | domsgit的个人主页</title>
+  <title>domsgit的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端、后端、docker、k8s">
+  <meta name="description" content="生命周期            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bo">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Project">
-<meta property="og:url" content="https://domsgit.github.io/project/index.html">
+<meta property="og:title" content="domsgit的个人主页">
+<meta property="og:url" content="https://domsgit.github.io/CVS/examples/lifeCycle.html">
 <meta property="og:site_name" content="domsgit的个人主页">
-<meta property="og:description" content="前端、后端、docker、k8s">
+<meta property="og:description" content="生命周期            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bo">
 <meta property="og:locale" content="utf-8">
-<meta property="og:updated_time" content="2019-08-17T15:29:51.000Z">
+<meta property="og:updated_time" content="2019-09-03T14:45:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Project">
-<meta name="twitter:description" content="前端、后端、docker、k8s">
+<meta name="twitter:title" content="domsgit的个人主页">
+<meta name="twitter:description" content="生命周期            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bo">
   
     <link rel="alternate" href="/atom.xml" title="domsgit的个人主页" type="application/atom+xml">
   
@@ -72,35 +72,77 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="project-" class="article article-type-project" itemscope itemprop="blogPost">
+        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/project/index.html" class="article-date">
-  <time datetime="2019-08-17T15:29:51.000Z" itemprop="datePublished">2019-08-17</time>
+    <a href="/CVS/examples/lifeCycle.html" class="article-date">
+  <time datetime="2019-09-03T14:45:37.000Z" itemprop="datePublished">2019-09-03</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Project
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
         <!-- Table of Contents -->
         
-        
+        <!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <title>生命周期</title>
+    <style media="screen">
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #canvas {
+        display: block;
+        box-sizing: border-box;
+        background-color: #000;
+      }
+    </style>
+  </head>
+<body>
+<canvas id="canvas">
+ 你的浏览器不支持 canvas，请升级你的浏览器。
+</canvas>
+<script src="../src/index.js"></script>
+<script>
+    new CVS({
+      onInit: function(instance) {
+        console.log('onInit')
+      },
+      onContextCreate: function(instance) {
+        console.log('onContextCreate')
+      },
+      onBeforeReload: function(instance) {
+        console.log('onBeforeReload')
+      },
+      onAfterReload: function(instance) {
+        console.log('onAfterReload')
+      },
+      onContextConfig: function(instance) {
+        console.log('onContextConfig')
+      },
+      onRender: function(instance) {
+        console.log('onRender')
+      },
+      onAnimation: function(instance) {
+        console.log('onAnimation')
+        return true
+      },
+    })
+</script>
+</body>
+</html>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://domsgit.github.io/project/index.html" data-id="ck040sh6g0004aozwp5ld9zwx" class="article-share-link">分享</a>
+      <a data-url="https://domsgit.github.io/CVS/examples/lifeCycle.html" data-id="ck040sh8z000faozw4ho2t7mj" class="article-share-link">分享</a>
       
       
       

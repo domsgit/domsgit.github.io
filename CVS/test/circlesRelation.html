@@ -3,19 +3,19 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>Project | domsgit的个人主页</title>
+  <title>domsgit的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端、后端、docker、k8s">
+  <meta name="description" content="圆的关系            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bo">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Project">
-<meta property="og:url" content="https://domsgit.github.io/project/index.html">
+<meta property="og:title" content="domsgit的个人主页">
+<meta property="og:url" content="https://domsgit.github.io/CVS/test/circlesRelation.html">
 <meta property="og:site_name" content="domsgit的个人主页">
-<meta property="og:description" content="前端、后端、docker、k8s">
+<meta property="og:description" content="圆的关系            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bo">
 <meta property="og:locale" content="utf-8">
-<meta property="og:updated_time" content="2019-08-17T15:29:51.000Z">
+<meta property="og:updated_time" content="2019-09-03T14:45:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Project">
-<meta name="twitter:description" content="前端、后端、docker、k8s">
+<meta name="twitter:title" content="domsgit的个人主页">
+<meta name="twitter:description" content="圆的关系            html, body {         margin: 0;         padding: 0;         height: 100%;         overflow: hidden;       }       #canvas {         display: block;         box-sizing: bo">
   
     <link rel="alternate" href="/atom.xml" title="domsgit的个人主页" type="application/atom+xml">
   
@@ -72,35 +72,149 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="project-" class="article article-type-project" itemscope itemprop="blogPost">
+        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/project/index.html" class="article-date">
-  <time datetime="2019-08-17T15:29:51.000Z" itemprop="datePublished">2019-08-17</time>
+    <a href="/CVS/test/circlesRelation.html" class="article-date">
+  <time datetime="2019-09-03T14:45:37.000Z" itemprop="datePublished">2019-09-03</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Project
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
         <!-- Table of Contents -->
         
-        
+        <!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <title>圆的关系</title>
+    <style media="screen">
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #canvas {
+        display: block;
+        box-sizing: border-box;
+        background-color: #000;
+      }
+    </style>
+  </head>
+<body>
+<canvas id="canvas">
+ 你的浏览器不支持 canvas，请升级你的浏览器。
+</canvas>
+<script src="../src/index.js"></script>
+<script>
+  main()
+
+  function main() {
+    var cvs = new CVS()
+    var ctx = cvs.ctx
+    var options = cvs.options
+    var width = options.width
+    var height = options.height
+
+    var log = console.log
+
+    var circles = {
+      circle1: {
+        x: 200,
+        y: 200,
+        r: 200
+      },
+      circle2: {
+        x: 200,
+        y: 200,
+        r: 50
+      },
+      circle3: {
+        x: 100,
+        y: 100,
+        r: 200 - 100 * Math.sqrt(2)
+      },
+      circle4: {
+        x: 200,
+        y: 50,
+        r: 50
+      },
+      circle5: {
+        x: 400,
+        y: 400,
+        r: 200 * (Math.sqrt(2) - 1)
+      },
+      circle6: {
+        x: 400,
+        y: 400,
+        r: 200
+      }
+    }
+
+
+    var fillStyles = ['red', 'green', 'blue', 'orange', 'white', 'yellow']
+    // ctx.lineWidth = 100 不会考虑lineWidth
+    ctx.globalAlpha = 0.5
+
+
+    for(var i = 0; i < fillStyles.length; i++) {
+      var circle = circles['circle' + (i + 1)]
+      ctx.fillStyle = fillStyles[i]
+      ctx.beginPath()
+      ctx.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
+      ctx.stroke()
+      ctx.fill()
+    }
+
+
+    // 同一个圆
+    cvs.assert(cvs.isCirclesSome(circles.circle1, circles.circle1), true)
+    cvs.assert(cvs.isCirclesSome(circles.circle2, circles.circle2), true)
+    cvs.assert(cvs.isCirclesSome(circles.circle1, circles.circle2), false)
+
+    // 同心圆
+    cvs.assert(cvs.isCirclesInSomeCentrePoint(circles.circle1, circles.circle2), true)
+    cvs.assert(cvs.isCirclesInSomeCentrePoint(circles.circle5, circles.circle6), true)
+    cvs.assert(cvs.isCirclesInSomeCentrePoint(circles.circle1, circles.circle1), false)
+    cvs.assert(cvs.isCirclesInSomeCentrePoint(circles.circle1, circles.circle3), false)
+
+    // 相离
+    cvs.assert(cvs.isCirclesInDisjoint(circles.circle2, circles.circle3), true)
+    cvs.assert(cvs.isCirclesInDisjoint(circles.circle2, circles.circle4), true)
+    cvs.assert(cvs.isCirclesInDisjoint(circles.circle1, circles.circle3), false)
+
+    // 外切
+    cvs.assert(cvs.isCirclesInOuterTangency(circles.circle1, circles.circle5), true)
+    cvs.assert(cvs.isCirclesInOuterTangency(circles.circle1, circles.circle3), false)
+
+    // 内切
+    cvs.assert(cvs.isCirclesInInnerTangency(circles.circle1, circles.circle3), true)
+    cvs.assert(cvs.isCirclesInInnerTangency(circles.circle1, circles.circle4), true)
+    cvs.assert(cvs.isCirclesInInnerTangency(circles.circle1, circles.circle2), false)
+
+    // 包含
+    cvs.assert(cvs.isCirclesInContain(circles.circle1, circles.circle2))
+    cvs.assert(cvs.isCirclesInContain(circles.circle5, circles.circle6))
+    cvs.assert(cvs.isCirclesInContain(circles.circle1, circles.circle1), false)
+
+    // 相交
+    cvs.assert(cvs.isCirclesInIntersect(circles.circle1, circles.circle6))
+    cvs.assert(cvs.isCirclesInIntersect(circles.circle1, circles.circle3), false)
+
+
+  }
+</script>
+</body>
+</html>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://domsgit.github.io/project/index.html" data-id="ck040sh6g0004aozwp5ld9zwx" class="article-share-link">分享</a>
+      <a data-url="https://domsgit.github.io/CVS/test/circlesRelation.html" data-id="ck040sh9c000qaozwiz91phmm" class="article-share-link">分享</a>
       
       
       
