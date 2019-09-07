@@ -1,4 +1,4 @@
-+function() {
+(function() {
     var log = console.log
     function CVS(options) {
       this.defaultOptions = {
@@ -83,8 +83,151 @@
     }
     // 近似相等
     var isSimilar = _proto.isSimilar = function(source, target, lowestVal) {
-      lowestVal = lowestVal || 0.0002
-      if(Math.abs(source - target) <= lowestval) { return true } else false =="======================================" public function="=======================================" dot="=======================================" ** * constructor x, y: position vx, vy: initial velocity in x direction or y ax, ay: accelerated speed dot(x, y, vy, ay) var _x="Number(x" || 0) _y="Number(y" _vx="Number(vx" _vy="Number(vy" _ax="Number(ax" _ay="Number(ay" if(isnan(_x) isnan(_y) isnan(_vx) isnan(_vy) isnan(_ax) isnan(_ay)) throw new typeerror("dot constructor's arguments must be number value can transform value!") this.x="_x" this.y="_y" this.vx="_vx" this.vy="_vy" this.ax="_ax" this.ay="_ay" _proto.dot="Dot" linewidth="=======================================" linewidth(width, widthv, widtha) _width="Number(width" _proto.defaultoptions.vdotlinewidth) _widthv="Number(widthV" _widtha="Number(widthA" if(isnan(_width) isnan(_widthv) isnan(_widtha)) typeerror("linewidth a this.width="_width" this.v="_widthV" this.a="_widthA" _proto.linewidth="LineWidth" color="=======================================" color(color, israndom) _color="String(color)" if(type(_color) !="=" 'string') typeerror("color first argument string, string type!") if(type(israndom) 'boolean') second boolean!") this.color="color" this.israndom="isRandom" _proto.color="Color" linecap="=======================================" _proto.linecaps="['round'," 'butt', 'square'] vdot="=======================================" canvas vdot(dot, linewidth, dotcolor) if(!(dot instanceof dot)) typeerror(dot + " is not dot's instance!") if(linewidth linewidth) this.linewidth="lineWidth" this.size="lineWidth.width" this.vsize="lineWidth.v" this.asize="lineWidth.a" _linewidth="Number(lineWidth" if(isnan(_linewidth)) typeerror(linewidth linewidth(_linewidth, 0, if(dotcolor color) this.strokestyle="dotColor" _strokestyle="String(dotColor" _proto.defaultoptions.vdotcolor) if(type(_strokestyle) typeerror("vdot third color(_strokestyle, false) this.dot="dot" _proto.vdot="VDot" vdot.prototype.render="function(cvsInstance)" ctx="cvsInstance.ctx" ctx.linecap="_proto.lineCaps[0]" ctx.linewidth="this.size" ctx.strokestyle="this.color" ctx.beginpath() ctx.moveto(this.x, this.y) ctx.lineto(this.x, ctx.stroke() ctx.closepath() if(this.mutation && isfn(this.mutation)) this.mutation() this._mutation(cvsinstance) vdot.prototype._mutation="function(cvsInstance)" width="cvsInstance.width" height="cvsInstance.height" isboundary="this.isBoundary(cvsInstance)" if(isboundary -1) if(isboundary.indexof('l')> -1 || isBoundary.indexOf('r') > -1) {
+      var _lowestVal = lowestVal || 0.0002
+      var _gap = Math.abs(source - target)
+      if(_gap < _lowestVal || _gap === _lowestVal) {
+        return true
+      }
+      return false
+    }
+    // ======================================== public function ========================================
+
+
+    // ======================================== Dot ========================================
+    /**
+     *  Dot constructor
+     *  x, y: dot position
+     *  vx, vy: dot initial velocity in x direction or y direction
+     *  ax, ay: dot accelerated speed in x direction or y direction
+     */
+    function Dot(x, y, vx, vy, ax, ay) {
+      var _x = Number(x || 0)
+      var _y = Number(y || 0)
+      var _vx = Number(vx || 0)
+      var _vy = Number(vy || 0)
+      var _ax = Number(ax || 0)
+      var _ay = Number(ay || 0)
+      if(isNaN(_x) || isNaN(_y) || isNaN(_vx) || isNaN(_vy) || isNaN(_ax) || isNaN(_ay)) {
+        throw new TypeError("Dot constructor's arguments must be Number value or can transform Number value!")
+      }
+      this.x = _x
+      this.y = _y
+      this.vx = _vx
+      this.vy = _vy
+      this.ax = _ax
+      this.ay = _ay
+    }
+
+    _proto.Dot = Dot
+    // ======================================== Dot ========================================
+
+    // ======================================== LineWidth ========================================
+    function LineWidth(width, widthV, widthA) {
+      var _width = Number(width || _proto.defaultOptions.VDotLineWidth)
+      var _widthV = Number(widthV || 0)
+      var _widthA = Number(widthA || 0)
+      if(isNaN(_width) || isNaN(_widthV) || isNaN(_widthA)) {
+        throw new TypeError("LineWidth constructor's arguments must be a Number value or can transform Number value!")
+      }
+      this.width = _width
+      this.v = _widthV
+      this.a = _widthA
+    }
+
+    _proto.LineWidth = LineWidth
+    // ======================================== LineWidth ========================================
+
+    // ======================================== Color ========================================
+    function Color(color, isRandom) {
+      var _color = String(color)
+      if(type(_color) !== 'string') {
+        throw new TypeError("Color constructor's first argument must be a String, or can transform String type!")
+      }
+      if(type(isRandom) !== 'boolean') {
+        throw new TypeError("Color constructor's second argument must be a boolean!")
+      }
+      this.color = color
+      this.isRandom = isRandom
+    }
+
+    _proto.Color = Color
+    // ======================================== Color ========================================
+
+    // ======================================== LineCap ========================================
+    _proto.lineCaps = ['round', 'butt', 'square']
+    // ======================================== LineCap ========================================
+
+    // ======================================== VDot ========================================
+    // dot canvas constructor
+    function VDot(dot, lineWidth, dotColor) {
+      if(!(dot instanceof Dot)) {
+        throw new TypeError(dot + " is not Dot's instance!")
+      }
+      if(lineWidth instanceof LineWidth) {
+        this.lineWidth = lineWidth
+        this.size = lineWidth.width
+        this.vsize = lineWidth.v
+        this.asize = lineWidth.a
+      } else {
+        var _lineWidth = Number(lineWidth ||  _proto.defaultOptions.VDotLineWidth)
+        if(isNaN(_lineWidth)) {
+          throw new TypeError(lineWidth + " must be a Number value or can transform Number value!")
+        }
+        this.lineWidth = new LineWidth(_lineWidth, 0, 0)
+        this.size = _lineWidth
+        this.vsize = 0
+        this.asize = 0
+      }
+      if(dotColor instanceof Color) {
+        this.strokeStyle = dotColor
+        this.color = dotColor.color
+        this.isRandom = dotColor.isRandom
+      } else {
+        var _strokeStyle = String(dotColor ||  _proto.defaultOptions.VDotColor)
+        if(type(_strokeStyle) !== 'string') {
+          throw new TypeError("VDot constructor's third argument must be a String, or can transform String type!")
+        }
+        this.strokeStyle = new Color(_strokeStyle, false)
+        this.color = _strokeStyle
+        this.isRandom = false
+      }
+      this.dot = dot
+      this.x = dot.x
+      this.y = dot.y
+      this.vx = dot.vx
+      this.vy = dot.vy
+      this.ax = dot.ax
+      this.ay = dot.ay
+    }
+
+    _proto.VDot = VDot
+
+    VDot.prototype.render = function(cvsInstance) {
+      var ctx = cvsInstance.ctx
+      ctx.lineCap = _proto.lineCaps[0]
+      ctx.lineWidth = this.size
+      ctx.strokeStyle = this.color
+      ctx.beginPath()
+      ctx.moveTo(this.x, this.y)
+      ctx.lineTo(this.x, this.y)
+      ctx.stroke()
+      ctx.closePath()
+
+      if(this.mutation && isFn(this.mutation)) {
+        this.mutation()
+      } else {
+        this._mutation(cvsInstance)
+      }
+    }
+
+    VDot.prototype._mutation = function(cvsInstance) {
+      var width = cvsInstance.width
+      var height = cvsInstance.height
+      var _width = this.getInitialSize()
+
+      var isBoundary = this.isBoundary(cvsInstance)
+      if(isBoundary && isBoundary !== -1) {
+        if(isBoundary.indexOf('l') > -1 || isBoundary.indexOf('r') > -1) {
           this.vx *= -1
         }
         if(isBoundary.indexOf('t') > -1 || isBoundary.indexOf('b') > -1) {
@@ -538,5 +681,5 @@
     }
 
     window.CVS = CVS
-}()
-</=></=>
+}())
+</=>
