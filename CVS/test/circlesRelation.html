@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>圆的关系</title>
+    <style media="screen">
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #canvas {
+        display: block;
+        box-sizing: border-box;
+        background-color: #000;
+      }
+    </style>
+  </head>
+<body>
+<canvas id="canvas">
+ 你的浏览器不支持 canvas，请升级你的浏览器。
+</canvas>
+<script src="../src/index.js"></script>
+<script>
+  main()
+
+  function main() {
+    var cvs = new CVS()
+    var ctx = cvs.ctx
+    var options = cvs.options
+    var width = options.width
+    var height = options.height
+
+    var log = console.log
+
+    var circles = {
+      circle1: {
+        x: 200,
+        y: 200,
+        r: 200
+      },
+      circle2: {
+        x: 200,
+        y: 200,
+        r: 50
+      },
+      circle3: {
+        x: 100,
+        y: 100,
+        r: 200 - 100 * Math.sqrt(2)
+      },
+      circle4: {
+        x: 200,
+        y: 50,
+        r: 50
+      },
+      circle5: {
+        x: 400,
+        y: 400,
+        r: 200 * (Math.sqrt(2) - 1)
+      },
+      circle6: {
+        x: 400,
+        y: 400,
+        r: 200
+      }
+    }
+
+
+    var fillStyles = ['red', 'green', 'blue', 'orange', 'white', 'yellow']
+    // ctx.lineWidth = 100 不会考虑lineWidth
+    ctx.globalAlpha = 0.5
+
+
+    for(var i = 0; i < fillStyles.length; i++) {
+      var circle = circles['circle' + (i + 1)]
+      ctx.fillStyle = fillStyles[i]
+      ctx.beginPath()
+      ctx.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
+      ctx.stroke()
+      ctx.fill()
+    }
+
+
+    // 同一个圆
+    cvs.assert(cvs.isCirclesSome(circles.circle1, circles.circle1), true)
+    cvs.assert(cvs.isCirclesSome(circles.circle2, circles.circle2), true)
+    cvs.assert(cvs.isCirclesSome(circles.circle1, circles.circle2), false)
+
+    // 同心圆
+    cvs.assert(cvs.isCirclesInSomeCentrePoint(circles.circle1, circles.circle2), true)
+    cvs.assert(cvs.isCirclesInSomeCentrePoint(circles.circle5, circles.circle6), true)
+    cvs.assert(cvs.isCirclesInSomeCentrePoint(circles.circle1, circles.circle1), false)
+    cvs.assert(cvs.isCirclesInSomeCentrePoint(circles.circle1, circles.circle3), false)
+
+    // 相离
+    cvs.assert(cvs.isCirclesInDisjoint(circles.circle2, circles.circle3), true)
+    cvs.assert(cvs.isCirclesInDisjoint(circles.circle2, circles.circle4), true)
+    cvs.assert(cvs.isCirclesInDisjoint(circles.circle1, circles.circle3), false)
+
+    // 外切
+    cvs.assert(cvs.isCirclesInOuterTangency(circles.circle1, circles.circle5), true)
+    cvs.assert(cvs.isCirclesInOuterTangency(circles.circle1, circles.circle3), false)
+
+    // 内切
+    cvs.assert(cvs.isCirclesInInnerTangency(circles.circle1, circles.circle3), true)
+    cvs.assert(cvs.isCirclesInInnerTangency(circles.circle1, circles.circle4), true)
+    cvs.assert(cvs.isCirclesInInnerTangency(circles.circle1, circles.circle2), false)
+
+    // 包含
+    cvs.assert(cvs.isCirclesInContain(circles.circle1, circles.circle2))
+    cvs.assert(cvs.isCirclesInContain(circles.circle5, circles.circle6))
+    cvs.assert(cvs.isCirclesInContain(circles.circle1, circles.circle1), false)
+
+    // 相交
+    cvs.assert(cvs.isCirclesInIntersect(circles.circle1, circles.circle6))
+    cvs.assert(cvs.isCirclesInIntersect(circles.circle1, circles.circle3), false)
+
+
+  }
+</script>
+</body>
+</html>

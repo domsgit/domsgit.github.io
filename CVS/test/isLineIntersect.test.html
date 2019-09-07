@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>基本骨架</title>
+    <style media="screen">
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #canvas {
+        display: block;
+        box-sizing: border-box;
+        background-color: #000;
+      }
+    </style>
+  </head>
+<body>
+<canvas id="canvas">
+ 你的浏览器不支持 canvas，请升级你的浏览器。
+</canvas>
+<script src="../src/index.js"></script>
+<script>
+  var log = console.log
+
+  var cvs = new CVS()
+  var ctx = cvs.ctx
+  var options = cvs.options
+
+
+  ctx.beginPath()
+  ctx.lineWidth = 6
+  ctx.strokeStyle = cvs.randomHexColor()
+  ctx.moveTo(100, 100)
+  ctx.lineTo(200, 200)
+  ctx.stroke()
+
+  ctx.beginPath()
+  ctx.lineWidth = 6
+  ctx.strokeStyle = cvs.randomHexColor()
+  ctx.moveTo(100, 200)
+  ctx.lineTo(200, 100)
+  ctx.stroke()
+
+  ctx.beginPath()
+  ctx.lineWidth = 6
+  ctx.strokeStyle = cvs.randomHexColor()
+  ctx.moveTo(100, 100)
+  ctx.lineTo(400, 200)
+  ctx.stroke()
+
+  log(cvs.isLineIntersect([100, 100, 200, 200], [100, 200, 200, 100])) // [50, 100]
+  var points = cvs.isLineIntersect([100, 100, 200, 200], [100, 100, 400, 200])
+  log(points) // [50, 100]
+  log(cvs.isSimilar(points[0], points[1])) // true
+
+
+</script>
+</body>
+</html>

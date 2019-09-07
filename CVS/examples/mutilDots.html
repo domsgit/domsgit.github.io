@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>乱点</title>
+    <style media="screen">
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #canvas {
+        display: block;
+        box-sizing: border-box;
+        background-color: #000;
+      }
+    </style>
+  </head>
+<body>
+<canvas id="canvas">
+ 你的浏览器不支持 canvas，请升级你的浏览器。
+</canvas>
+<script src="../src/index.js"></script>
+<script>
+  new CVS({
+    onRender: function(index) {
+      console.log(index)
+      const {ctx, width, height} = this
+      const vdot = new this.VDot(
+        new this.Dot(
+          width * Math.random(),
+          height * Math.random()
+        ),
+        Math.floor(Math.random() * 40),
+        this.randomHexColor()
+      )
+      vdot.render(this)
+    },
+    times: 100
+  })
+</script>
+</body>
+</html>

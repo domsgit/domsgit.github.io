@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>乱弧-quadraticCurveTo</title>
+    <style media="screen">
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #canvas {
+        display: block;
+        box-sizing: border-box;
+        background-color: #000;
+      }
+    </style>
+  </head>
+<body>
+<canvas id="canvas">
+ 你的浏览器不支持 canvas，请升级你的浏览器。
+</canvas>
+<script src="../src/index.js"></script>
+<script>
+  main()
+
+  function main() {
+    var cvs = new CVS()
+    var ctx = cvs.ctx
+    var options = cvs.options
+    var width = options.width
+    var height = options.height
+
+    var NUM = 10
+
+    for(var i = 0; i < NUM; i++) {
+      ctx.lineWidth = 10 * Math.random()
+      ctx.strokeStyle = cvs.randomHexColor()
+      // ctx.fillStyle = cvs.randomHexColor()
+      ctx.beginPath()
+      ctx.moveTo(Math.random() * width, Math.random() * height)
+      ctx.bezierCurveTo(Math.random() * width, Math.random() * height, Math.random() * width, Math.random() * height, Math.random() * width, Math.random() * height)
+      ctx.stroke()
+      // ctx.fill()
+    }
+  }
+</script>
+</body>
+</html>

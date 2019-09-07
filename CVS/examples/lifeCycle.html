@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>生命周期</title>
+    <style media="screen">
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #canvas {
+        display: block;
+        box-sizing: border-box;
+        background-color: #000;
+      }
+    </style>
+  </head>
+<body>
+<canvas id="canvas">
+ 你的浏览器不支持 canvas，请升级你的浏览器。
+</canvas>
+<script src="../src/index.js"></script>
+<script>
+    new CVS({
+      onInit: function(instance) {
+        console.log('onInit')
+      },
+      onContextCreate: function(instance) {
+        console.log('onContextCreate')
+      },
+      onBeforeReload: function(instance) {
+        console.log('onBeforeReload')
+      },
+      onAfterReload: function(instance) {
+        console.log('onAfterReload')
+      },
+      onContextConfig: function(instance) {
+        console.log('onContextConfig')
+      },
+      onRender: function(instance) {
+        console.log('onRender')
+      },
+      onAnimation: function(instance) {
+        console.log('onAnimation')
+        return true
+      },
+    })
+</script>
+</body>
+</html>
