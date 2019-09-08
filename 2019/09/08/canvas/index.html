@@ -3,18 +3,20 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>domsgit的个人主页</title>
+  <title>canvas | domsgit的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端、后端、docker、k8s">
-<meta property="og:type" content="website">
-<meta property="og:title" content="domsgit的个人主页">
-<meta property="og:url" content="https://domsgit.github.io/index.html">
+  <meta name="description" content="我的canvas仓库canvas相关演示demo">
+<meta name="keywords" content="canvas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="canvas">
+<meta property="og:url" content="https://domsgit.github.io/2019/09/08/canvas/index.html">
 <meta property="og:site_name" content="domsgit的个人主页">
-<meta property="og:description" content="前端、后端、docker、k8s">
+<meta property="og:description" content="我的canvas仓库canvas相关演示demo">
 <meta property="og:locale" content="utf-8">
+<meta property="og:updated_time" content="2019-09-08T09:21:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="domsgit的个人主页">
-<meta name="twitter:description" content="前端、后端、docker、k8s">
+<meta name="twitter:title" content="canvas">
+<meta name="twitter:description" content="我的canvas仓库canvas相关演示demo">
   
     <link rel="alternate" href="/atom.xml" title="domsgit的个人主页" type="application/atom+xml">
   
@@ -71,9 +73,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-canvas" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-canvas" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/09/08/canvas/" class="article-date">
   <time datetime="2019-09-08T09:17:06.000Z" itemprop="datePublished">2019-09-08</time>
@@ -86,8 +86,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/08/canvas/">canvas</a>
+    <h1 class="article-title" itemprop="name">
+      canvas
     </h1>
   
 
@@ -111,10 +111,64 @@
     </footer>
   </div>
   
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+  
 </article>
  
-
-
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
   
 
 </section>
@@ -122,22 +176,6 @@
     <aside id="sidebar">
   
     
-  <div class="widget-wrap">
-     
-        <h3 class="follow-title ">Follow me</h3>
-     
-    <div class="widget follow">
-      
-              <a class="github" aria-hidden="true" href="https://github.com/domsgit" target="_blank" title="Github"></a>
-      
-      
-      
-      
-            <a class="email" aria-hidden="true"  href="mailto:domsgit@outlook.com" target="_blank" title="邮箱"></a>
-      
-    </div>
-  </div>
-
 
   
     
@@ -146,13 +184,6 @@
 
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title tagcloud">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/canvas/" style="font-size: 14px;">canvas</a>
-    </div>
-  </div>
-
   
     
   <div class="widget-wrap">
@@ -170,13 +201,6 @@
 
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title archive">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-  </div>
-
 
   
 </aside>
