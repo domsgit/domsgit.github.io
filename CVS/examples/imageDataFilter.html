@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>imageDataFilter</title>
+  <style media="screen">
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .canvas {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div>
+      <h1>源图片</h1>
+      <canvas class="canvas" id="canvas" width="100" height="100">
+        你的浏览器不支持 canvas，请升级你的浏览器。
+      </canvas>
+    </div>
+    <div>
+      <h1>灰度效果</h1>
+      <canvas class="canvas" id="canvas2" width="100" height="100">
+        你的浏览器不支持 canvas，请升级你的浏览器。
+      </canvas>
+    </div>
+    <div>
+      <h1>复古效果</h1>
+      <canvas class="canvas" id="canvas3" width="100" height="100">
+        你的浏览器不支持 canvas，请升级你的浏览器。
+      </canvas>
+    </div>
+    <div>
+      <h1>红色蒙版效果</h1>
+      <canvas class="canvas" id="canvas4" width="100" height="100">
+        你的浏览器不支持 canvas，请升级你的浏览器。
+      </canvas>
+    </div>
+    <div>
+      <h1>亮度效果</h1>
+      <canvas class="canvas" id="canvas5" width="100" height="100">
+        你的浏览器不支持 canvas，请升级你的浏览器。
+      </canvas>
+    </div>
+    <div>
+      <h1>反转效果</h1>
+      <canvas class="canvas" id="canvas6" width="100" height="100">
+        你的浏览器不支持 canvas，请升级你的浏览器。
+      </canvas>
+    </div>
+  </div>
+  <script src="../src/index.js"></script>
+  <script>
+    // ===================== 源图片 ===========================
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+
+    var imageData = ctx.createImageData(100, 100);
+    for (var i = 0; i < imageData.data.length; i += 4) {
+      var isPrev = Math.random() > 0.2;
+      imageData.data[i + 0] = isPrev ? imageData.data[i - 4] : 255 * Math.random();
+      imageData.data[i + 1] = isPrev ? imageData.data[i - 3] : 255 * Math.random();
+      imageData.data[i + 2] = isPrev ? imageData.data[i - 2] : 255 * Math.random();
+      imageData.data[i + 3] = 255;
+    }
+    ctx.putImageData(imageData, 0, 0);
+
+
+    // ===================== 灰度效果 ===========================
+    var canvas2 = document.getElementById('canvas2');
+    var ctx2 = canvas2.getContext('2d');
+    var imageData2 = grayscale(imageData);
+    ctx2.putImageData(imageData2, 0, 0);
+
+    function grayscale(pixels) {
+      var d = pixels.data;
+      for (var i = 0; i < d.length; i += 4) {
+        var r = d[i];
+        var g = d[i + 1];
+        var b = d[i + 2];
+        d[i] = d[i + 1] = d[i + 2] = (r + g + b) / 3;
+      }
+      return pixels;
+    }
+
+
+    // ===================== 复古效果 ===========================
+    var canvas3 = document.getElementById('canvas3');
+    var ctx3 = canvas3.getContext('2d');
+    var imageData3 = sepia(imageData);
+    ctx3.putImageData(imageData3, 0, 0);
+
+    function sepia(pixels) {
+      var d = pixels.data;
+      for (var i = 0; i < d.length; i += 4) {
+        var r = d[i];
+        var g = d[i + 1];
+        var b = d[i + 2];
+        d[i] = (r * 0.393) + (g * 0.769) + (b * 0.189); // red
+        d[i + 1] = (r * 0.349) + (g * 0.686) + (b * 0.168); // green
+        d[i + 2] = (r * 0.272) + (g * 0.534) + (b * 0.131); // blue
+      }
+      return pixels;
+    }
+
+
+    // ===================== 红色蒙版效果 ===========================
+    var canvas4 = document.getElementById('canvas4');
+    var ctx4 = canvas4.getContext('2d');
+    var imageData4 = red(imageData);
+    ctx4.putImageData(imageData4, 0, 0);
+
+    function red(pixels) {
+      var d = pixels.data;
+      for (var i = 0; i < d.length; i += 4) {
+        var r = d[i];
+        var g = d[i + 1];
+        var b = d[i + 2];
+        d[i] = (r + g + b) / 3;        // 红色通道取平均值
+        d[i + 1] = d[i + 2] = 0; // 绿色通道和蓝色通道都设为0
+      }
+      return pixels;
+    }
+
+
+    // ===================== 亮度效果 ===========================
+    var canvas5 = document.getElementById('canvas5');
+    var ctx5 = canvas5.getContext('2d');
+    var imageData5 = brightness(imageData, 100);
+    ctx5.putImageData(imageData5, 0, 0);
+
+    function brightness(pixels, delta) {
+      var d = pixels.data;
+      for (var i = 0; i < d.length; i += 4) {
+        d[i] += delta;     // red
+        d[i + 1] += delta; // green
+        d[i + 2] += delta; // blue
+      }
+      return pixels;
+    }
+
+
+    // ===================== 反转效果 ===========================
+    var canvas6 = document.getElementById('canvas6');
+    var ctx6 = canvas6.getContext('2d');
+    var imageData6 = invert(imageData);
+    ctx6.putImageData(imageData6, 0, 0);
+
+    function invert(pixels) {
+      var d = pixels.data;
+      for (var i = 0; i < d.length; i += 4) {
+        d[i] = 255 - d[i];
+        d[i + 1] = 255 - d[i + 1];
+        d[i + 2] = 255 - d[i + 2];
+      }
+      return pixels;
+    }
+  </script>
+</body>
+
+</html>
